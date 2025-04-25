@@ -1,36 +1,82 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Next.js + Next Auth + Amazon Cognito 認証サンプル
 
-## Getting Started
+このプロジェクトは [Next.js](https://nextjs.org) を基盤とし、[Next Auth](https://next-auth.js.org) と [Amazon Cognito](https://aws.amazon.com/jp/cognito/) を使用した認証機能のサンプル実装です。
 
-First, run the development server:
+## 概要
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+このアプリケーションは以下の認証フローを実装しています：
+
+- サインイン / サインアウト
+- パスワードを忘れた場合のリセット
+- パスワード変更
+- トークンのリフレッシュ
+
+## 前提条件
+
+- Node.js@18.0.0
+- pnpm@8.0.0
+- Amazon Cognito
+
+### 環境変数の設定
+
+このアプリケーションを実行するには、以下の環境変数を設定する必要があります：
+
+````bash
+# .env.local ファイルに以下を設定
+AWS_COGNITO_USER_POOL_ID=xxxxxxxxxxxx
+AWS_COGNITO_CLIENT_ID=xxxxxxxxxxxx
+# AWS_COGNITO_CLIENT_SECRET=xxxxxxxxxxxx // 今回はシークレットなしで設定済み
+AWS_COGNITO_REGION=ap-northeast-1
+
+NEXTAUTH_SECRET=xxxxxxxxxxxx
+NEXTAUTH_URL=http://localhost:3000
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+#### NEXTAUTH_SECRET の生成方法
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+NEXTAUTH_SECRET は、JWT の署名やクッキーの暗号化に使用される重要な秘密鍵です。強力なランダム文字列を生成するには、以下のコマンドを使用してください：
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+pnpm dlx auth secret
+````
 
-## Learn More
+このコマンドは、NextAuth.js の公式ツールを使用して安全なシークレットを生成し、自動的に `.env.local` ファイルに追加します。
 
-To learn more about Next.js, take a look at the following resources:
+## 起動方法
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+1. 依存パッケージのインストール：
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```bash
+pnpm install --frozen-lockfile
+```
 
-## Deploy on Vercel
+2. 開発サーバーの起動：
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```bash
+pnpm dev
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+3. ブラウザで [http://localhost:3000](http://localhost:3000) を開くと、アプリケーションが表示されます。
+
+## 機能構成
+
+- 公開ページ：`/auth/signin` - サインインページ
+- 公開ページ：`/auth/forgot-password` - パスワードリセットページ
+- 保護ページ：`/setting` - パスワード変更などの設定ページ
+
+## 技術スタック
+
+- [Next.js 15](https://nextjs.org/) - React フレームワーク
+- [Next Auth 4](https://next-auth.js.org/) - 認証ライブラリ
+- [AWS SDK for JavaScript](https://aws.amazon.com/jp/sdk-for-javascript/) - Amazon Cognito 連携
+- [React 19](https://react.dev/) - UI ライブラリ
+- [TailwindCSS 4](https://tailwindcss.com/) - スタイリング
+- [TypeScript 5](https://www.typescriptlang.org/) - 型付け
+
+## 詳細情報
+
+Next.js の詳細は以下のリソースを参照してください：
+
+- [Next.js ドキュメント](https://nextjs.org/docs/ja) - Next.js の機能と API
+- [Next Auth ドキュメント](https://next-auth.js.org/getting-started/introduction) - 認証ライブラリの使い方
+- [Amazon Cognito 開発者ガイド](https://docs.aws.amazon.com/ja_jp/cognito/latest/developerguide/what-is-amazon-cognito.html) - Amazon Cognito の使用方法
