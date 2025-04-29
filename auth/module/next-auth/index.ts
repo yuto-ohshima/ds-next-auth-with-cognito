@@ -44,8 +44,6 @@ const authOptions: AuthOptions = {
     },
 
     async jwt({ token, user }) {
-      console.log("jwt: ", { token, user });
-
       if (user) {
         const convertedToken = convertToken({
           accessToken: user.accessToken,
@@ -60,13 +58,10 @@ const authOptions: AuthOptions = {
         };
       }
 
-      console.log("jwt-before-computeShouldRefresh: ", { token });
-
       const shouldRefresh = computeShouldRefresh({
         expiresAt: token.expiresAt,
       });
       if (!shouldRefresh) {
-        console.log("jwt-!shouldRefresh: ", { token });
         return {
           ...token,
           accessToken: token.accessToken,
@@ -75,24 +70,15 @@ const authOptions: AuthOptions = {
         };
       }
 
-      console.log("jwt-shouldRefresh: ", { token });
       const result = await tokenRefresh({ refreshToken: token.refreshToken });
-      console.log("jwt-shouldRefresh-result: ", { result });
       return result;
     },
 
     session({ session, token }) {
-      console.log("session: ", { session, token });
-
       if (token.accessToken) {
         session.accessToken = token.accessToken;
       }
 
-      console.log("session-return: ", {
-        user: undefined,
-        expires: undefined,
-        accessToken: token.accessToken,
-      });
       return {
         user: undefined,
         expires: undefined,
