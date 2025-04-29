@@ -25,7 +25,7 @@ export const Initiate: FC<Props> = (props) => {
     (form: InitiateSchema) => (e: FormEvent<HTMLFormElement>) => {
       e.preventDefault();
 
-      Auth.forgotPasswordInitiate(form)
+      Auth.Cognito.forgotPasswordInitiate(form)
         .then((result) => {
           console.log("result: ", { result });
           props.onSubmitCallback(form.email);

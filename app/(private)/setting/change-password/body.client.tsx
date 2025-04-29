@@ -36,7 +36,7 @@ export const BodyClient: FC<Props> = (props) => {
     (input: ChangePasswordFormSchema) => (e: FormEvent<HTMLFormElement>) => {
       e.preventDefault();
 
-      Auth.changePassword({
+      Auth.Cognito.changePassword({
         newPassword: input.newPassword,
         oldPassword: input.oldPassword,
         accessToken: input.accessToken,

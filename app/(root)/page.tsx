@@ -1,10 +1,13 @@
 import Image from "next/image";
-import { ChangePasswordButton, SignOutButton } from "./_component";
-import { auth } from "../api/auth/[...nextauth]/route";
-import { AccessTokenTextareaField } from "./_component/access-token-textarea-field";
+import {
+  ChangePasswordButton,
+  SignOutButton,
+  AccessTokenTextareaField,
+} from "./_component";
+import { Auth } from "@/auth";
 
 export default async function RootPage() {
-  const session = await auth();
+  const session = await Auth.NextAuth.auth();
 
   return (
     <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">

@@ -1,7 +1,8 @@
 const THRESHOLD = 0.75;
 
 type Props = {
-  expiresIn: number;
+  /** 有効期限（秒） */
+  expiresAt: number;
 };
 
 /**
@@ -10,6 +11,7 @@ type Props = {
  * @returns
  */
 export const computeShouldRefresh = (props: Props): boolean => {
-  const refreshAt = Date.now() + props.expiresIn * THRESHOLD * 1000;
-  return refreshAt < Date.now();
+  const currentAt = Date.now() / 1000;
+  const refreshAt = props.expiresAt * THRESHOLD;
+  return currentAt >= refreshAt;
 };

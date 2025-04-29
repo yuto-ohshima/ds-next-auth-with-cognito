@@ -14,6 +14,10 @@ export const middleware = async (req: NextRequest) => {
 
   const session = await getToken({ req, secret: process.env.authSecret });
   if (session?.accessToken) {
+    if (session.error === "RefreshTokenExpired") {
+      response = NextResponse.redirect(new URL("/auth/signin", req.url));
+    }
+
     if (pathname.startsWith("/auth")) {
       response = NextResponse.redirect(new URL("/", req.url));
     }

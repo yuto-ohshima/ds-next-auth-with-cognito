@@ -36,7 +36,7 @@ export const Confirm: FC<Props> = (props) => {
     (form: ConfirmSchema) => (e: FormEvent<HTMLFormElement>) => {
       e.preventDefault();
 
-      Auth.forgotPasswordConfirm(form)
+      Auth.Cognito.forgotPasswordConfirm(form)
         .then(() => {
           props.onSubmitCallback();
         })

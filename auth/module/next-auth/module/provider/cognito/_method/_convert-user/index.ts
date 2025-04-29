@@ -26,6 +26,6 @@ export const convertUser = (props: Props): User => {
     kind: "SignInSuccess",
     accessToken: props.accessToken ?? "",
     refreshToken: props.refreshToken ?? "",
-    expiresIn: (props.expiresIn ?? 0) + Date.now(),
+    expiresIn: props.expiresIn ?? 0,
   };
 };

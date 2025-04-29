@@ -2,9 +2,9 @@
 
 import { FC, FormEvent, useCallback, useState } from "react";
 import { toast, signIn } from "@/lib";
-import { CognitoProviderId } from "@/app/api/auth/[...nextauth]/route";
 import { NewPasswordInputField, SubmitButton } from "./_component";
 import { NewPasswordRequiredSchema } from "../../_schema";
+import { Auth } from "@/auth";
 
 type Props = {
   email: string;
@@ -29,7 +29,7 @@ export const NewPasswordRequired: FC<Props> = (props) => {
     (form: NewPasswordRequiredSchema) => (e: FormEvent<HTMLFormElement>) => {
       e.preventDefault();
 
-      signIn(CognitoProviderId, {
+      signIn(Auth.NextAuth.CognitoProviderId, {
         email: form.email,
         newPassword: form.password,
         redirect: false,

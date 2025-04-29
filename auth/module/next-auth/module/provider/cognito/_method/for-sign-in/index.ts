@@ -1,19 +1,24 @@
 import { User } from "next-auth";
 import { convertUser } from "../_convert-user";
-import { Auth } from "@/auth";
+import { Cognito } from "@/auth/module";
 
 type Props = {
   email: string;
-  newPassword: string;
-  session: string;
+  password: string;
 };
 
-export const forChangePassword = async (props: Props): Promise<User | null> => {
-  const result = await Auth.newChangePassword({
+export const forSignIn = async (props: Props): Promise<User | null> => {
+  const result = await Cognito.signIn({
     email: props.email,
-    newPassword: props.newPassword,
-    session: props.session,
+    password: props.password,
   });
+
+  if (result.ChallengeName === "NEW_PASSWORD_REQUIRED") {
+    return convertUser({
+      email: props.email,
+      session: result.Session ?? "",
+    });
+  }
 
   if (!result.AuthenticationResult) {
     return null;
